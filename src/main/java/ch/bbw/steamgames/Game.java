@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDate;
@@ -24,6 +25,7 @@ public class Game {
     String publisher;
     String platforms;
     int requiredAge;
+    @Column(length = 500)
     String categories;
     String genres;
     String steamspyTags;

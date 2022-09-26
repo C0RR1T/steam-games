@@ -1,5 +1,6 @@
 # steam-games
-Unser Projekt ist eine Applikation, die auf eine Liste von den meisten Steam-Games zugreift.
+Unser Projekt ist eine Applikation, die auf eine Liste von den meisten Steam-Games zugreift und bearbeitet
+
 
 ### Was gut ging ###
 Wir konnten uns schnell auf was einigen und hatten das Projekt "*eigentlich*" schnell Fertig.
@@ -10,8 +11,7 @@ Das eine war, das Corsin was änderte, aber dann nicht mehr erreichbar war.
 Nikolaj hatte auch vergessen, eine Einladung als Contibuter in GitHub anzunehmen und konnte so nicht arbeiten, solange Corsin weg war.
 
 ### Was noch fehlt ###
-
-----
+JUnit-Test fehlen noch, sowie der bonus Punkt 8 mit einer Methode, die SQL-Injection anfällig ist.
 
 ### Erwartete Note ###
 

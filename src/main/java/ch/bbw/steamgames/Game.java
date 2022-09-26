@@ -1,18 +1,16 @@
 package ch.bbw.steamgames;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Builder
-@Data
+@Getter
+@Setter
+@Table(name = "game")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Game {
@@ -20,20 +18,20 @@ public class Game {
     Integer appId;
     String name;
     LocalDate releaseDate;
-    int english;
+    Integer english;
     String developer;
     String publisher;
     String platforms;
-    int requiredAge;
+    Integer requiredAge;
     @Column(length = 500)
     String categories;
     String genres;
     String steamspyTags;
-    int achievements;
-    int positiveRatings;
-    int negativeRatings;
-    int averagePlaytime;
-    int medianPlaytime;
+    Integer achievements;
+    Integer positiveRatings;
+    Integer negativeRatings;
+    Integer averagePlaytime;
+    Integer medianPlaytime;
     String owners;
-    double price;
+    Double price;
 }

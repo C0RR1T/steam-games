@@ -37,4 +37,4 @@ out/
 
 ### VS Code ###
 .vscode/
-src/main/resources/reviews.csv
+/src/main/resources/reviews_raw.csv

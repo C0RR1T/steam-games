@@ -1,4 +1,4 @@
-package ch.bbw.steamgames;
+package ch.bbw.steamgames.game;
 
 import lombok.*;
 

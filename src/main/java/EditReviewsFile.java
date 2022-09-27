@@ -9,9 +9,8 @@ import java.util.regex.Pattern;
 
 public class EditReviewsFile {
     private static final Pattern gameIdPattern = Pattern.compile("(\\d+?),");
-    private static final Pattern gameIdPattern = Pattern.compile("^(\\d+?),(.+?),(.+?),(\d+),(\d+)$");
-    private static final Pattern wrappingQuationmarksPattern = Pattern.compile("(^\"{1,}(?:.+))|((?<=.+?)\"{1,}$)");
-    private static final Pattern gameNamePattern = Pattern.compile("\\d+?,(.+?,)");
+    private static final Pattern csvLinePattern = Pattern.compile("^(\\d+?),(.+?),(.+?),(\\d+),(\\d+)$");
+    private static final Pattern wrappingQuationmarksPattern = Pattern.compile("(^\"{1,}(?:.+))|((?<=.{1,}?)\"{1,}$)");
 
     public static void main(String[] args) throws FileNotFoundException {
         var inputStream = EditReviewsFile.class.getClassLoader().getResourceAsStream("reviews_raw.csv");
@@ -50,7 +49,8 @@ public class EditReviewsFile {
                 continue;
             }
 
-            if (reviewCount != null && reviewCount > 20) {
+            final int REVIEWS_PER_GAME = 5;
+            if (reviewCount != null && reviewCount > REVIEWS_PER_GAME) {
                 continue;
             }
 
@@ -58,7 +58,7 @@ public class EditReviewsFile {
 
             printStream.println(String.format("%s,%s,%s,%s,%s", processedLine[0], processedLine[1], processedLine[2], processedLine[3], processedLine[4]));
 
-            reviewsPerGame.put(gameId, Optional.ofNullable(reviewCount).orElse(0) + 1);
+            reviewsPerGame.put(processedLine[0], Optional.ofNullable(reviewCount).orElse(0) + 1);
         }
 
         sc.close();
@@ -96,8 +96,8 @@ public class EditReviewsFile {
     private static final Random r = new Random();
 
     public static String[] getSplittedLine(String line) {
-        Matcher matcher = Pattern.matcher(line);
-        if(!matcher.match()) {
+        Matcher matcher = csvLinePattern.matcher(line);
+        if(!matcher.matches()) {
             return null;
         }
         String gameId = matcher.group(1);
@@ -106,10 +106,10 @@ public class EditReviewsFile {
         String reviewScore = matcher.group(4);
         String reviewVotes = matcher.group(5);
 
-        reviewText = wrappingQuationMarksPattern.matcher(line).replaceAll(reviewText).replaceAll("\"", "\"\"");
+        reviewText = wrappingQuationmarksPattern.matcher(line).replaceAll(reviewText).replaceAll("\"", "\"\"");
         reviewText = String.format("\"%s\"", reviewText);
 
-        return new String[]{gameId, String.valueOf(r.nextInt(Integer.MAX_VALUE)), reviewText, reviewScore, reviewVotes}
+        return new String[]{gameId, String.valueOf(r.nextInt(Integer.MAX_VALUE)), reviewText, reviewScore, reviewVotes};
     }
 
 }

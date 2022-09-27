@@ -101,7 +101,6 @@ public class EditReviewsFile {
             return null;
         }
         String gameId = matcher.group(1);
-        String gameName = matcher.group(2);
         String reviewText = matcher.group(3);
         String reviewScore = matcher.group(4);
         String reviewVotes = matcher.group(5);

@@ -14,7 +14,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Review {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @ManyToOne
     private Game game;

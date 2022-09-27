@@ -34,9 +34,9 @@ public class EditReviewsFile {
 
             String line = sc.nextLine();
             String gameId = getGameId(line);
-            
 
-            if(gameId == null) {
+
+            if (gameId == null) {
                 System.err.println("faulty line, Skipping..");
                 continue;
             }
@@ -52,13 +52,16 @@ public class EditReviewsFile {
                 continue;
             }
 
-            String[] processedLine = getSplittedLine(line);
+            String[] processedLine = getSplittedLine(line, currentLine);
 
             System.out.printf("Currently working on line %d%n", currentLine);
 
-            printStream.println(String.format("%s,%s,%s,%s,%s", processedLine[0], processedLine[1], processedLine[2], processedLine[3], processedLine[4]));
+            if (processedLine != null) {
+                printStream.printf("%s,%s,%s,%s,%s%n", processedLine[0], processedLine[1], processedLine[2], processedLine[3], processedLine[4]);
+                reviewsPerGame.put(processedLine[0], Optional.ofNullable(reviewCount).orElse(0) + 1);
 
-            reviewsPerGame.put(processedLine[0], Optional.ofNullable(reviewCount).orElse(0) + 1);
+            }
+
         }
 
         sc.close();
@@ -68,9 +71,9 @@ public class EditReviewsFile {
 
     public static String getGameId(String line) {
         String result = "";
-        for(char c: line.toCharArray()) {
-            if(c == ',') break;
-            else if(Character.isDigit(c)) {
+        for (char c : line.toCharArray()) {
+            if (c == ',') break;
+            else if (Character.isDigit(c)) {
                 result += c;
             } else {
                 return null;
@@ -88,7 +91,7 @@ public class EditReviewsFile {
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
             String gameId = line.split(",")[0];
-            if(!gameIds.contains(gameId)) {
+            if (!gameIds.contains(gameId)) {
                 gameIds.add(gameId);
             }
         }
@@ -100,9 +103,9 @@ public class EditReviewsFile {
 
     private static final Random r = new Random();
 
-    public static String[] getSplittedLine(String line) {
+    public static String[] getSplittedLine(String line, int i) {
         Matcher matcher = csvLinePattern.matcher(line);
-        if(!matcher.matches()) {
+        if (!matcher.matches()) {
             return null;
         }
         String gameId = matcher.group(1);
@@ -113,7 +116,7 @@ public class EditReviewsFile {
         reviewText = wrappingQuationmarksPattern.matcher(reviewText).replaceAll("").replaceAll("\"", "\"\"");
         reviewText = String.format("\"%s\"", reviewText);
 
-        return new String[]{gameId, String.valueOf(r.nextInt(Integer.MAX_VALUE)), reviewText, reviewScore, reviewVotes};
+        return new String[]{gameId, String.valueOf(i), reviewText, reviewScore, reviewVotes};
     }
 
 }

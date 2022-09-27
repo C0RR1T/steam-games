@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
 
 public class EditReviewsFile {
     private static final Pattern gameIdPattern = Pattern.compile("(\\d+?),");
+    private static final Pattern gameIdPattern = Pattern.compile("^(\\d+?),(.+?),(.+?),(\d+),(\d+)$");
+    private static final Pattern wrappingQuationmarksPattern = Pattern.compile("(^\"{1,}(?:.+))|((?<=.+?)\"{1,}$)");
     private static final Pattern gameNamePattern = Pattern.compile("\\d+?,(.+?,)");
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -35,15 +37,16 @@ public class EditReviewsFile {
             currentLine++;
 
             String line = sc.nextLine();
-            String gameId = getGameId(line);
-            if (gameId == null) {
-                System.err.println("Faulty line");
+            String[] processedLine = getSplittedLine(line);
+
+            if(processedLine == null) {
+                System.err.println("faulty line, Skipping..");
                 continue;
             }
 
-            var reviewCount = reviewsPerGame.get(gameId);
+            var reviewCount = reviewsPerGame.get(processedLine[0]);
 
-            if (!possibleGameIds.contains(gameId)) {
+            if (!possibleGameIds.contains(processedLine[0])) {
                 continue;
             }
 
@@ -53,12 +56,8 @@ public class EditReviewsFile {
 
             System.out.printf("Currently working on line %d%n", currentLine);
 
-            line = line.replaceFirst("(?<=\\d{1,},).+?(?=,)", String.valueOf(r.nextInt(Integer.MAX_VALUE)));
+            printStream.println(String.format("%s,%s,%s,%s,%s", processedLine[0], processedLine[1], processedLine[2], processedLine[3], processedLine[4]));
 
-
-
-
-            printStream.println(line);
             reviewsPerGame.put(gameId, Optional.ofNullable(reviewCount).orElse(0) + 1);
         }
 
@@ -92,6 +91,25 @@ public class EditReviewsFile {
         sc.close();
 
         return gameIds;
+    }
+
+    private static final Random r = new Random();
+
+    public static String[] getSplittedLine(String line) {
+        Matcher matcher = Pattern.matcher(line);
+        if(!matcher.match()) {
+            return null;
+        }
+        String gameId = matcher.group(1);
+        String gameName = matcher.group(2);
+        String reviewText = matcher.group(3);
+        String reviewScore = matcher.group(4);
+        String reviewVotes = matcher.group(5);
+
+        reviewText = wrappingQuationMarksPattern.matcher(line).replaceAll(reviewText).replaceAll("\"", "\"\"");
+        reviewText = String.format("\"%s\"", reviewText);
+
+        return new String[]{gameId, String.valueOf(r.nextInt(Integer.MAX_VALUE)), reviewText, reviewScore, reviewVotes}
     }
 
 }

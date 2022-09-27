@@ -30,22 +30,20 @@ public class EditReviewsFile {
         System.out.println("Finished processing all possible Game Ids");
         System.out.println(possibleGameIds);
 
-        int currentLine = 0;
-
-        while (sc.hasNextLine()) {
-            currentLine++;
+        for (int currentLine = 1; sc.hasNextLine(); currentLine++) {
 
             String line = sc.nextLine();
-            String[] processedLine = getSplittedLine(line);
+            String gameId = getGameId(line);
+            
 
-            if(processedLine == null) {
+            if(gameId == null) {
                 System.err.println("faulty line, Skipping..");
                 continue;
             }
 
-            var reviewCount = reviewsPerGame.get(processedLine[0]);
+            var reviewCount = reviewsPerGame.get(gameId);
 
-            if (!possibleGameIds.contains(processedLine[0])) {
+            if (!possibleGameIds.contains(gameId)) {
                 continue;
             }
 
@@ -53,6 +51,8 @@ public class EditReviewsFile {
             if (reviewCount != null && reviewCount > REVIEWS_PER_GAME) {
                 continue;
             }
+
+            String[] processedLine = getSplittedLine(line);
 
             System.out.printf("Currently working on line %d%n", currentLine);
 
@@ -67,11 +67,16 @@ public class EditReviewsFile {
     }
 
     public static String getGameId(String line) {
-        Matcher matcher = gameIdPattern.matcher(line);
-        if (matcher.find()) {
-            return matcher.group(0).replaceAll(",", "");
+        String result = "";
+        for(char c: line.toCharArray()) {
+            if(c == ',') break;
+            else if(Character.isDigit(c)) {
+                result += c;
+            } else {
+                return null;
+            }
         }
-        return null;
+        return result;
     }
 
     public static List<String> getAllGames() {

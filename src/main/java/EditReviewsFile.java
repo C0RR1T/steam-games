@@ -106,8 +106,7 @@ public class EditReviewsFile {
         String reviewScore = matcher.group(4);
         String reviewVotes = matcher.group(5);
 
-        wrappingQuationMarksPattern.matcher(line).replaceAll(reviewText);
-        reviewText.replaceAll("\"", "\"\"");
+        reviewText = wrappingQuationMarksPattern.matcher(line).replaceAll(reviewText).replaceAll("\"", "\"\"");
         reviewText = String.format("\"%s\"", reviewText);
 
         return new String[]{gameId, String.valueOf(r.nextInt(Integer.MAX_VALUE)), reviewText, reviewScore, reviewVotes}

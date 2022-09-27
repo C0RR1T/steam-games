@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class ReviewService {
 
 
     // OOOPS
-    public List<Review> accidentalSQLInjection(String name) {
-        return em.createNativeQuery("SELECT * FROM review WHERE name = " + name).getResultsList();
+    public List accidentalSQLInjection(String name) {
+        return em.createNativeQuery("SELECT * FROM review WHERE 'name' = " + name).getResultList();
     }
 }

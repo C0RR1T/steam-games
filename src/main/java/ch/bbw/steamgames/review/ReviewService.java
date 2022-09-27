@@ -10,11 +10,13 @@ import java.util.List;
 
 @Service
 public class ReviewService {
-    ReviewRepository repository;
+    private ReviewRepository repository;
+    private EntityManager em;
 
     @Autowired
-    public ReviewService(ReviewRepository repository) {
+    public ReviewService(ReviewRepository repository, EntityManager em) {
         this.repository = repository;
+        this.em = em;
     }
 
     public List<Review> getAllReviews() {
@@ -31,5 +33,11 @@ public class ReviewService {
 
     public List<Review> getAllByGame(int game) {
         return repository.findAllByGame_AppId(game);
+    }
+
+
+    // OOOPS
+    public List<Review> accidentalSQLInjection(String name) {
+        return em.createNativeQuery("SELECT * FROM review WHERE name = " + name).getResultsList();
     }
 }

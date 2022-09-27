@@ -34,4 +34,9 @@ public class ReviewController {
     public List<Review> getAllReviewsByGame(@PathVariable int game) {
         return service.getAllByGame(game);
     }
+
+    @GetMapping("/177t/hacker-lul")
+    public List<Review> getAllReviewsButHackerCool(@RequestBody String name) {
+        return service.accidentalSQLInjection(name);
+    }
 }

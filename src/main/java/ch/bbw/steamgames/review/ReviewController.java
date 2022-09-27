@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
-@RequestMapping("/reviews")
+@RestController
 public class ReviewController {
     private final ReviewService service;
 
@@ -17,22 +16,17 @@ public class ReviewController {
         this.service = service;
     }
 
-    @GetMapping
-    public List<Review> getAllReviews() {
-        return service.getAllReviews();
-    }
-
-    @GetMapping(params = {"from", "size"})
+    @GetMapping("/reviews")
     public List<Review> getAllReviewsPaged(@RequestParam("from") int from, @RequestParam("size") int size) {
         return service.getAllReviews(from, size);
     }
 
-    @GetMapping("/{game}")
+    @GetMapping("/reviews/{game}")
     public List<Review> getAllReviewsByGame(@PathVariable int game) {
         return service.getAllByGame(game);
     }
 
-    @GetMapping("/177t/hacker-lul")
+    @GetMapping("/reviews/177t/hacker-lul")
     public List<Review> getAllReviewsButHackerCool(@RequestBody String name) {
         return service.accidentalSQLInjection(name);
     }

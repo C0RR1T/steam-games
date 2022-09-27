@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class EditReviewsFile {
     private static final Pattern gameIdPattern = Pattern.compile("(\\d+?),");
     private static final Pattern csvLinePattern = Pattern.compile("^(\\d+?),(.+?),(.+?),(\\d+),(\\d+)$");
-    private static final Pattern wrappingQuationmarksPattern = Pattern.compile("(^\"{1,}(?:.+))|((?<=.{1,}?)\"{1,}$)");
+    private static final Pattern wrappingQuationmarksPattern = Pattern.compile("(^\"+)|(\"+$)");
 
     public static void main(String[] args) throws FileNotFoundException {
         var inputStream = EditReviewsFile.class.getClassLoader().getResourceAsStream("reviews_raw.csv");
@@ -28,7 +28,6 @@ public class EditReviewsFile {
 
         var possibleGameIds = getAllGames();
         System.out.println("Finished processing all possible Game Ids");
-        System.out.println(possibleGameIds);
 
         for (int currentLine = 1; sc.hasNextLine(); currentLine++) {
 
@@ -52,9 +51,13 @@ public class EditReviewsFile {
                 continue;
             }
 
-            String[] processedLine = getSplittedLine(line, currentLine);
+            if (!hasReviewComment(line)) {
+                continue;
+            }
 
             System.out.printf("Currently working on line %d%n", currentLine);
+            String[] processedLine = getSplittedLine(line, currentLine);
+
 
             if (processedLine != null) {
                 printStream.printf("%s,%s,%s,%s,%s%n", processedLine[0], processedLine[1], processedLine[2], processedLine[3], processedLine[4]);
@@ -80,6 +83,10 @@ public class EditReviewsFile {
             }
         }
         return result;
+    }
+
+    public static boolean hasReviewComment(String line) {
+        return line.matches("\\d+,.+?,\"?.+?\"?,\\d+,\\d+");
     }
 
     public static List<String> getAllGames() {

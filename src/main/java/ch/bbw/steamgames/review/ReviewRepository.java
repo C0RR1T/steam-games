@@ -1,11 +1,12 @@
 package ch.bbw.steamgames.review;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
-public interface ReviewRepository extends PagingAndSortingRepository<Review, Integer> {
+@Transactional
+public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
     List<Review> findAllByGame_AppId(Integer appId);
 }

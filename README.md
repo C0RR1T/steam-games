@@ -11,7 +11,7 @@ Schwierigkeiten mit Spring Boot, eine Person hatte am Schluss noch Probleme mit 
 darum mussten wir dann ein extra Program schreiben (EditReviewsFile.java)
 
 ## Was noch fehlt
-Eigentlich fehlt uns nichts mehr. Wir haben alle Aufgaben mit SQL Injection gelöst und unsere Repostiroies haben sinnvolle Tests
+Eigentlich fehlt uns nichts mehr. Wir haben alle Aufgaben mit SQL Injection gelöst und unsere Repositories haben sinnvolle Tests
 
 ## Erwartete Note
 Wir finden das wir die Note 6 verdient haben da wir sehr cleanen Code haben und noch extra code geschrieben (EditReviewsFile.java).

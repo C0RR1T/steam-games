@@ -20,25 +20,29 @@ public class ReviewService {
         this.em = em;
     }
 
-    public List<Review> getAllReviews() {
-        var reviews = new ArrayList<Review>();
-        repository.findAll().forEach(reviews::add);
-        return reviews;
-    }
-
     public List<Review> getAllReviews(int from, int size) {
         Pageable pageable = PageRequest.of(from, size);
 
         return repository.findAll(pageable).toList();
     }
 
-    public List<Review> getAllByGame(int game) {
-        return repository.findAllByGame_AppId(game);
+    public List<Review> getAllByGame(Integer game) {
+        return repository.findAllByGame(game);
+    }
+
+    public List<TopAndFlopGames> getTopAndFlopGames() {
+        var games = repository.getTopGames();
+        games.addAll(repository.getFlopGames());
+        return games;
+    }
+
+    public void deleteById(int game) {
+        repository.deleteReviewByGame_AppId(game);
     }
 
 
     // OOOPS
     public List accidentalSQLInjection(String name) {
-        return em.createNativeQuery("SELECT * FROM review WHERE 'name' = " + name).getResultList();
+        return em.createNativeQuery("SELECT review_text FROM review  WHERE game_app_id = " + name).getResultList();
     }
 }

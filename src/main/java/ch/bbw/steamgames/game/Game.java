@@ -15,23 +15,32 @@ import java.util.List;
 @AllArgsConstructor
 public class Game {
     @Id
-    Integer appId;
-    String name;
-    LocalDate releaseDate;
-    Integer english;
-    String developer;
-    String publisher;
-    String platforms;
-    Integer requiredAge;
+    private Integer appId;
+    private String name;
+    private LocalDate releaseDate;
+    private Integer english;
+    private String developer;
+    private String publisher;
+    private String platforms;
+    private Integer requiredAge;
     @Column(length = 500)
-    String categories;
-    String genres;
-    String steamspyTags;
-    Integer achievements;
-    Integer positiveRatings;
-    Integer negativeRatings;
-    Integer averagePlaytime;
-    Integer medianPlaytime;
-    String owners;
-    Double price;
+    private String categories;
+    private String genres;
+    private String steamspyTags;
+    private Integer achievements;
+    private Integer positiveRatings;
+    private Integer negativeRatings;
+    private Integer averagePlaytime;
+    private Integer medianPlaytime;
+    private String owners;
+    private Double price;
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Game))
+            return false;
+        Game g = (Game) o;
+        System.out.println("Hello");
+        return getAppId().equals(g.getAppId());
+    }
 }

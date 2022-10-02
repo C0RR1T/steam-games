@@ -1,4 +1,3 @@
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -11,6 +10,7 @@ public class EditReviewsFile {
     private static final Pattern gameIdPattern = Pattern.compile("(\\d+?),");
     private static final Pattern csvLinePattern = Pattern.compile("^(\\d+?),(.+?),(.+?),(\\d+),(\\d+)$");
     private static final Pattern wrappingQuationmarksPattern = Pattern.compile("(^\"+)|(\"+$)");
+    private static final Random r = new Random();
 
     public static void main(String[] args) throws FileNotFoundException {
         var inputStream = EditReviewsFile.class.getClassLoader().getResourceAsStream("reviews_raw.csv");
@@ -107,8 +107,6 @@ public class EditReviewsFile {
 
         return gameIds;
     }
-
-    private static final Random r = new Random();
 
     public static String[] getSplittedLine(String line, int i) {
         Matcher matcher = csvLinePattern.matcher(line);

@@ -17,7 +17,7 @@ class GameTest implements WithAssertions {
     void findAllByGenresIsInAndCategoriesIsIn() {
         List<Game> games = repository.findAllByGenresIsInOrCategoriesIsIn(List.of("Multi-player"), List.of("Action"));
 
-        for(Game g : games) {
+        for (Game g : games) {
             assertThat(g.getGenres()).contains("Multi-player");
             assertThat(g.getCategories()).contains("Action");
         }
